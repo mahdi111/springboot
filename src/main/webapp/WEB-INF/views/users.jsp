@@ -10,26 +10,30 @@
 
 <div  style="width: 60%; float: left;">
 
-<table border=1><tbody><tr>
-<td>id </td><td>firstname</td><td>lastname </td><td>login </td><td>Action </td>
+<table border=1 id="users">
+<thead>
+<tr>
+<th>id </th><td>firstname</td><td>lastname </td><td>login </td><td>Action </td>
 </tr>
+</thead>
+<tbody>
 <tr>
 <td>1 </td><td>x</td><td>y </td><td>z </td><td>Supprimer - Modifier </td>
 </tr>
 </tbody></table>
 </div>
 
-<div style="width: 40%; float: left;">
-<form>
+<div  style="width: 40%; float: left;">
+<form id="nice">
 <label>firstname</label>
-<input type="text"><br>
+<input type="text" name="firstName"><br>
 <label>lastname</label>
-<input type="text"><br>
+<input type="text" name="lastName"><br>
 <label>login</label>
-<input type="text"><br>
+<input type="text" name="login"><br>
 <label>password</label>
-<input type="password"><br>
-<button>ajouter / modifier</button>
+<input type="password" name="password"><br>
+<button id="target" type="button">ajouter / modifier</button>
 
 </form>
 </div>
@@ -48,11 +52,30 @@
     	//effacer le contenu
     	$("#users tbody").empty()
     	
-    	result.each(function(){
-    		
-    	}
+    	$.each(result,function(i,item){
+    		var tr="<tr>";
+    		tr += "<td>" +item.id + "</td>";
+    		tr += "<td>" +$(this)[0].firstName + "</td>";
+    		tr += "<td>" +$(this)[0].lastName + "</td>";
+    		tr += "<td>" +$(this)[0].login + "</td>";
+    		tr += "<td></td>";
+    		tr += "</tr>";
+    		$("#users tbody").append(tr);
+    		    		
+    	});
      }
   });
+$( "#target" ).click(function() {
+	$.ajax({
+		  url:'/api/ajouter',
+		  type:"POST",
+		  data:$("form").serialize(),
+		  success: function(){
+			  alert( "it's work" );
+		  }
+		})
+});
+  
   
   </script>
 
